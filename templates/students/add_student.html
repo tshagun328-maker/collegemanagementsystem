@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg rounded-4">
+                <div class="card-header text-center bg-primary text-white rounded-top-4">
+                    <h3 class="mb-0">Add Student</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter student name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Roll No</label>
+                            <input type="text" name="roll_no" class="form-control" placeholder="Enter roll number" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Phone No</label>
+                            <input type="text" name="phone_no" class="form-control" placeholder="Enter phone number" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Address</label>
+                            <textarea name="address" class="form-control" placeholder="Enter address" rows="2" required></textarea>
+                        </div>
+
+                        <!-- COURSE DROPDOWN -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Course</label>
+
+                           <select name="course" class="form-control">
+
+                                <option value="">-- Select Course --</option>
+
+                                 {% for course in courses %}
+
+                                    <option value="{{ course.id }}">
+                                         {{ course.name }}
+                                    </option>
+
+                                {% endfor %}
+
+                        </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'student_list' %}" class="btn btn-secondary px-4">
+                                Back
+                            </a>
+
+                            <button type="submit" class="btn btn-success px-4">
+                                Save
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card-footer text-center text-muted">
+                    © 2026 College Management System
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

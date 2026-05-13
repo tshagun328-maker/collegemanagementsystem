@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Teacher</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 40%;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: darkblue;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Teacher</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="name" value="{{ teacher.name }}" required>
+        <input type="email" name="email" value="{{ teacher.email }}" required>
+        <input type="text" name="phone" value="{{ teacher.phone }}" required>
+        <input type="text" name="subject" value="{{ teacher.subject }}" required>
+
+        <button type="submit">Update Teacher</button>
+    </form>
+
+    <a href="{% url 'teacher_list' %}">⬅ Back</a>
+</div>
+
+</body>
+</html>

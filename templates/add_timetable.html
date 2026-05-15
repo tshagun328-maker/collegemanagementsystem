@@ -1,0 +1,234 @@
+<!-- templates/add_timetable.html -->
+<!-- Is file ko pura replace kar do. Sab input boxes properly visible honge. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if timetable %}Edit Timetable{% else %}Add Timetable{% endif %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            background: #dfeaf5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 72px;
+            font-weight: 800;
+            color: #1f2a44;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            color: #5b6b82;
+            margin-bottom: 35px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #22324d;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 18px;
+            border: 1px solid #cfd6df;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: #fff;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #3b82f6;
+        }
+
+        .btn-list {
+            background: #10b981;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            label {
+                font-size: 18px;
+            }
+
+            input,
+            select {
+                font-size: 16px;
+                padding: 14px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🗓️ {% if timetable %}Edit Timetable{% else %}Add Timetable{% endif %}</h1>
+    <div class="subtitle">Create and manage class schedule details.</div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Course -->
+        <label for="course">Course</label>
+        <select name="course" id="course" required>
+            <option value="">-- Select Course --</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}"
+                    {% if timetable and timetable.course.id == course.id %}selected{% endif %}>
+                    {{ course.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <!-- Year -->
+        <label for="year">Year</label>
+        <input
+            type="text"
+            name="year"
+            id="year"
+            placeholder="Enter Year (e.g. 1st Year, 2nd Year, BCA 3rd Year)"
+            value="{% if timetable %}{{ timetable.year }}{% endif %}"
+            required
+        >
+
+        <!-- Subject -->
+        <label for="subject">Subject</label>
+        <input
+            type="text"
+            name="subject"
+            id="subject"
+            placeholder="Enter Subject Name"
+            value="{% if timetable %}{{ timetable.subject }}{% endif %}"
+            required
+        >
+
+        <!-- Day -->
+    <div class="from-group">     
+        <label for="day">Day</label>
+        <select name="day" id="day" class="form-control" 
+    required>
+            <option value="">-- Select Day --</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+    </div>    
+
+        <!-- Start Time -->
+        <label for="start_time">Start Time</label>
+        <input
+            type="time"
+            name="start_time"
+            id="start_time"
+            value="{% if timetable and timetable.start_time %}{{ timetable.start_time|time:'H:i' }}{% endif %}"
+            required
+        >
+
+        <!-- End Time -->
+        <label for="end_time">End Time</label>
+        <input
+            type="time"
+            name="end_time"
+            id="end_time"
+            value="{% if timetable and timetable.end_time %}{{ timetable.end_time|time:'H:i' }}{% endif %}"
+            required
+        >
+
+        <!-- Room -->
+        <label for="room">Room</label>
+        <input
+            type="text"
+            name="room"
+            id="room"
+            placeholder="Enter Room Number (e.g. F20)"
+            value="{% if timetable %}{{ timetable.room }}{% endif %}"
+            required
+        >
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button type="submit" class="btn btn-save">
+                💾 {% if timetable %}Update Timetable{% else %}Save Timetable{% endif %}
+            </button>
+
+            <a href="{% url 'timetable_list' %}" class="btn btn-list">
+                📋 View Timetable List
+            </a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

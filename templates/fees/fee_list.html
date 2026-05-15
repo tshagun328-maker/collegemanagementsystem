@@ -1,3 +1,7 @@
+<!-- templates/fees/fee_list.html -->
+<!-- Is code ko pura replace kar do -->
+<!-- Isme Total Amount, Paid Amount aur Pending Amount sab properly show honge -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,152 +9,245 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fee List</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         body {
-            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
             font-family: Arial, sans-serif;
+            background: #dfeaf5;
         }
 
-        .page-card {
-            margin-top: 40px;
+        .container {
+            max-width: 1400px;
+            margin: auto;
             background: #ffffff;
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        .page-title {
-            font-size: 48px;
-            font-weight: 700;
-            color: #0d6efd;
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .table thead th {
-            background: #0d6efd !important;
-            color: #ffffff !important;
+        h1 {
+            margin: 0;
+            font-size: 64px;
+            color: #1e66f5;
+        }
+
+        .btn-add {
+            background: #198754;
+            color: white;
+            text-decoration: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+        }
+
+        th {
+            background: #1e66f5;
+            color: white;
+            padding: 18px 14px;
+            font-size: 22px;
             text-align: center;
-            vertical-align: middle;
-            font-size: 20px;
         }
 
-        .table tbody td {
+        td {
+            padding: 18px 14px;
+            font-size: 22px;
             text-align: center;
-            vertical-align: middle;
+            border: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fbff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 8px;
             font-size: 18px;
+            font-weight: bold;
+            color: white;
         }
 
-        .btn-action {
-            border-radius: 30px;
-            padding: 6px 18px;
-            font-weight: 600;
+        .paid {
+            background: #198754;
+        }
+
+        .pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .partial {
+            background: #0dcaf0;
+            color: #000;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-delete {
+            background: #dc3545;
         }
 
         .back-btn {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
             background: #6c757d;
             color: white;
-            border-radius: 12px;
-            font-size: 24px;
-            font-weight: 500;
-            padding: 12px;
-            width: 100%;
             text-decoration: none;
-            display: inline-block;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .no-data {
             text-align: center;
+            padding: 40px;
+            font-size: 26px;
+            color: #666;
         }
 
-        .back-btn:hover {
-            background: #5c636a;
-            color: white;
-        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
 
-        .badge {
-            font-size: 14px;
-            padding: 8px 12px;
-        }
+            .container {
+                padding: 20px;
+            }
 
-        .no-record {
-            color: #6c757d;
-            font-size: 18px;
-            padding: 25px 0;
+            h1 {
+                font-size: 42px;
+            }
+
+            .btn-add {
+                font-size: 18px;
+                padding: 12px 18px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .back-btn {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="page-card">
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="page-title">Fee List</h1>
-            <a href="{% url 'add_fee' %}" class="btn btn-success btn-lg px-4 rounded-3">
-                + Add Fee
-            </a>
-        </div>
-
-        <!-- Table -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Student</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th width="220">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for fee in fees %}
-                    <tr>
-                        <td>{{ fee.id }}</td>
-                        <td>{{ fee.student.name }}</td>
-                        <td>₹{{ fee.amount }}</td>
-                        <td>
-                            {% if fee.status == "Paid" %}
-                                <span class="badge bg-success">Paid</span>
-                            {% elif fee.status == "Pending" %}
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            {% else %}
-                                <span class="badge bg-secondary">{{ fee.status }}</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ fee.date }}</td>
-                        <td>
-                            <a href="{% url 'edit_fee' fee.id %}"
-                               class="btn btn-warning btn-sm btn-action">
-                                Edit
-                            </a>
-                            <a href="{% url 'delete_fee' fee.id %}"
-                               class="btn btn-danger btn-sm btn-action"
-                               onclick="return confirm('Are you sure you want to delete this fee record?');">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" class="no-record">
-                            No fee records found.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Back Button -->
-        <div class="mt-4">
-            <a href="{% url 'admin_dashboard' %}" class="back-btn">
-                ⬅ Back to Dashboard
-            </a>
-        </div>
-
+    <div class="top-bar">
+        <h1>Fee List</h1>
+        <a href="{% url 'add_fee' %}" class="btn-add">+ Add Fee</a>
     </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Total Amount</th>
+                <th>Paid Amount</th>
+                <th>Pending Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for fee in fees %}
+            <tr>
+                <td>{{ fee.id }}</td>
+                <td>{{ fee.student.name }}</td>
+                <td>{{ fee.course.name }}</td>
+                <td>₹ {{ fee.total_amount }}</td>
+                <td>₹ {{ fee.paid_amount }}</td>
+                <td>₹ {{ fee.pending_amount }}</td>
+
+                <td>
+                    {% if fee.status == 'Paid' %}
+                        <span class="status paid">Paid</span>
+                    {% elif fee.status == 'Partial' %}
+                        <span class="status partial">Partial</span>
+                    {% else %}
+                        <span class="status pending">Pending</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ fee.date }}</td>
+
+                <td>
+                    <div class="actions">
+                        <a href="{% url 'edit_fee' fee.id %}" class="btn btn-edit">Edit</a>
+                        <a href="{% url 'delete_fee' fee.id %}"
+                           class="btn btn-delete"
+                           onclick="return confirm('Are you sure you want to delete this fee record?')">
+                           Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="no-data">No fee records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'admin_dashboard' %}" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
 </div>
 
 </body>

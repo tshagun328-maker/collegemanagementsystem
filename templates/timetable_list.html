@@ -1,0 +1,139 @@
+<!-- File path:
+templates/timetable_list.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable List</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #f8fafc);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 48px;
+            color: #1e293b;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #3b82f6;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        th {
+            background: #3b82f6;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #6b7280;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🗓️ Timetable List</h1>
+
+    <a href="/timetable/add/" class="btn">➕ Add New Timetable</a>
+
+    <table>
+        <!-- Table Header -->
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Course</th>
+                        <th>Subject</th>
+                        <th>Day</th>
+                        <th>Year</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Room</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <!-- Table Body -->
+                <tbody>
+                {% for item in timetables %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.course.course_name }}</td>
+                    <td>{{ item.subject }}</td>
+                    <td>{{ item.day }}</td>
+                    <td>{{ item.year }}</td>
+                    <td>{{ item.start_time }}</td>
+                    <td>{{ item.end_time }}</td>
+                    <td>{{ item.room }}</td>
+                    <td>
+                        <a href="{% url 'edit_timetable' item.id %}" class="btn">Edit</a>
+                        <a href="{% url 'delete_timetable' item.id %}"
+                        class="btn"
+                        onclick="return confirm('Delete this timetable?');">
+                        Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" style="text-align:center;">
+                        No timetable records found.
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+    </table>
+</div>
+
+</body>
+</html>

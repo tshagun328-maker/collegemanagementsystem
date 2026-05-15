@@ -135,16 +135,6 @@
 
         <div class="col-md-3">
             <div class="card-box">
-                <h3>Fees</h3>
-                <p>Manage fee records</p>
-                <a href="/fees/" class="btn btn-primary open-btn">
-                    Open
-                </a>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card-box">
                 <h3>Attendance</h3>
                 <p>Attendance system</p>
                 <a href="/attendance/" class="btn btn-primary open-btn">
@@ -161,6 +151,16 @@
                     Open
                 </a>
             </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card-box">
+                <h3>Fees</h3>
+                <p>Manage fee records</p>
+                <a href="{% url 'fee_list' %}" class="btn btn-primary open-btn">
+                    Open
+                </a>
+            </div>    
         </div>
 
         <div class="col-md-3">

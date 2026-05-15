@@ -9,5 +9,9 @@ urlpatterns = [
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
     path('courses/', include('courses.urls')),
-    path('fees/', include('fees.urls')),   # ✅ IMPORTANT
+    path('attendance/', include('attendance.urls')),   # ✅ IMPORTANT
+    path('exams/', include('exams.urls')),
+    path('timetable/', include('timetable.urls')),
+    path('notices/', include('notices.urls')),
+    path('fees/', include('fees.urls'), name='fees'),
 ]
